@@ -1,10 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
-    id("androidx.room")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -32,9 +32,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
-    room {
-        schemaDirectory("$projectDir/schemas")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -67,32 +64,44 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    //SplashScreen
-    implementation(libs.androidx.core.splashscreen)
-    //Navigation compose
+    //compose
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
-    //Dagger-hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
-    //Retrofit
+    implementation(libs.coil.compose)
+
+    // Room
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+
+    //Splash Screen
+    implementation(libs.androidx.core.splashscreen)
+
+    //Cloudy for blurring effect
+    implementation(libs.cloudy)
+
+    //Paging
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
+
+    // KotlinX Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
-    //Coil
-    implementation(libs.coil.compose)
-    //RoomDb
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-    //Paging3
-    implementation(libs.androidx.paging.compose)
-    implementation(libs.androidx.paging.runtime.ktx)
-    //kotlin-x serialization
-    implementation(libs.kotlinx.serialization.json)
-    //Cloudy for blurred effect
-    implementation(libs.cloudy)
+    implementation(libs.converter.scalars)
+
+    //Dagger-Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    ksp(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
 
 
@@ -107,6 +116,3 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 }
 
-kapt {
-    correctErrorTypes = true
-}
