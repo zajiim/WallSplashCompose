@@ -9,9 +9,9 @@ data class UnsplashImageDto(
     @SerialName("id")
     val id: String,
     @SerialName("blur_hash")
-    val blurHash: String,
+    val blurHash: String?,
     @SerialName("color")
-    val color: String,
+    val color: String?,
     @SerialName("description")
     val description: String?,
     @SerialName("height")
@@ -44,18 +44,32 @@ data class User(
     val links: LinksX,
     @SerialName("name")
     val name: String,
-    @SerialName("portfolio_url")
-    val portfolioUrl: String,
     @SerialName("profile_image")
     val profileImage: ProfileImage,
-    @SerialName("total_collections")
-    val totalCollections: Int,
-    @SerialName("total_likes")
-    val totalLikes: Int,
-    @SerialName("total_photos")
-    val totalPhotos: Int,
-    @SerialName("twitter_username")
-    val twitterUsername: String,
     @SerialName("username")
     val username: String
+)
+
+@Serializable
+data class ProfileImage(
+    @SerialName("large")
+    val large: String,
+    @SerialName("medium")
+    val medium: String,
+    @SerialName("small")
+    val small: String
+)
+
+@Serializable
+data class LinksX(
+    @SerialName("html")
+    val html: String,
+    @SerialName("likes")
+    val likes: String,
+    @SerialName("photos")
+    val photos: String,
+    @SerialName("portfolio")
+    val portfolio: String,
+    @SerialName("self")
+    val self: String
 )
