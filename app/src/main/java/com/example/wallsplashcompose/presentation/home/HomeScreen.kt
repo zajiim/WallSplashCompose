@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.wallsplashcompose.data.remote.dto.UnsplashImageDto
 import com.example.wallsplashcompose.domain.models.UnsplashImage
+import com.example.wallsplashcompose.presentation.home.components.ImageCard
 
 @Composable
 fun HomeScreen(
@@ -18,23 +19,12 @@ fun HomeScreen(
     images: List<UnsplashImage>
     ) {
 
-//    LazyColumn(modifier = modifier.fillMaxSize()) {
-//        item {
-//            images.forEach { image ->
-//                Text(text = image.user.name)
-//                Text(text = image.user.username)
-//                Text(text = image.description ?: "")
-//            }
-//        }
-//    }
-    Column(modifier = modifier
-        .fillMaxSize()
-        .verticalScroll(rememberScrollState())) {
-        images.forEach { image ->
-            Text(text = image.photographerUsername)
-            Text(text = image.photographerProfileLink)
-            Text(text = image.description ?: "")
-            Text(text = image.blurHash ?: "")
+    LazyColumn(modifier = modifier.fillMaxSize()) {
+        item {
+            images.forEach { image ->
+                ImageCard(image = image)
+            }
         }
     }
+
 }
