@@ -28,4 +28,12 @@ class HomeViewModel: ViewModel() {
             images = result.toUnsplashModelList()
         }
     }
+
+    fun onImageClick(imageId: String) {
+        Log.d(TAG, "Image clicked: $imageId")
+    }
+
+    fun onSearchClick() {
+        Log.d(TAG, "Search clicked")
+    }
 }
