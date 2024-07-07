@@ -26,7 +26,10 @@ class MainActivity : ComponentActivity() {
 
                     val viewModel = viewModel<HomeViewModel>()
 
-                    HomeScreen(images = viewModel.images)
+                    HomeScreen(
+                        images = viewModel.images,
+                        onImageClick = { }
+                    )
                 }
             }
         }
