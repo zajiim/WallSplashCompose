@@ -1,22 +1,38 @@
 package com.example.wallsplashcompose.presentation.home
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.BottomAppBarScrollBehavior
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.wallsplashcompose.domain.models.UnsplashImage
+import com.example.wallsplashcompose.presentation.home.components.CustomTopAppBar
 import com.example.wallsplashcompose.presentation.home.components.ImageCard
 import com.example.wallsplashcompose.presentation.home.components.ImageVerticalGrid
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    scrollBehavior: TopAppBarScrollBehavior,
     images: List<UnsplashImage>,
-    onImageClick: (String) -> Unit
+    onImageClick: (String) -> Unit,
+    onSearchClick: () -> Unit
     ) {
 
-    ImageVerticalGrid(
-        images = images,
-        onItemClick = onImageClick
-    )
+    Column {
+        CustomTopAppBar(
+            scrollBehavior = scrollBehavior,
+            onSearchClick = { onSearchClick() },
+            title = "Wall Splash"
+        )
+        
+        ImageVerticalGrid(
+            images = images,
+            onItemClick = onImageClick
+        )
+    }
 
 }
