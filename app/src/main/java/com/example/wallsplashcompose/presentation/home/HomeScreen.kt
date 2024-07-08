@@ -12,14 +12,13 @@ import com.example.wallsplashcompose.presentation.home.components.ImageVerticalG
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    modifier: Modifier,
     scrollBehavior: TopAppBarScrollBehavior,
     images: List<UnsplashImage>,
     onImageClick: (String) -> Unit,
     onSearchClick: () -> Unit
     ) {
 
-    Column(modifier = modifier) {
+    Column {
         CustomTopAppBar(
             scrollBehavior = scrollBehavior,
             onSearchClick = { onSearchClick() },

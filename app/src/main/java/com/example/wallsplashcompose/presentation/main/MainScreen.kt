@@ -31,10 +31,17 @@ fun MainScreen(
     modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
-        bottomBar = { BottomNavBar(navController) },
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+        bottomBar = {
+            if (currentRoute != Routes.Search.route) {
+                BottomNavBar(
+                    navController = navController, currentRoute = currentRoute
+                )
+            }
+        }, modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { innerPadding ->
         WallSplashNavGraph(
             navController = navController,
@@ -47,7 +54,9 @@ fun MainScreen(
 }
 
 @Composable
-fun BottomNavBar(navController: NavHostController) {
+fun BottomNavBar(
+    navController: NavHostController, currentRoute: String?
+) {
     val items = listOf(
         BottomNavItem(
             "Home",
@@ -63,9 +72,6 @@ fun BottomNavBar(navController: NavHostController) {
     )
 
     NavigationBar {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
-
         items.forEach { item ->
             NavigationBarItem(icon = {
                 Icon(

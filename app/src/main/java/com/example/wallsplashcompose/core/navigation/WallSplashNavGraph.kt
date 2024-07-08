@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import com.example.wallsplashcompose.presentation.favorites.FavoritesScreen
 import com.example.wallsplashcompose.presentation.home.HomeScreen
 import com.example.wallsplashcompose.presentation.home.HomeViewModel
+import com.example.wallsplashcompose.presentation.search.SearchScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,12 +31,16 @@ fun WallSplashNavGraph(
                 scrollBehavior = scrollBehavior,
                 images = viewModel.images,
                 onImageClick = viewModel::onImageClick,
-                onSearchClick = viewModel::onSearchClick,
-                modifier = modifier
+                onSearchClick = { navController.navigate(Routes.Search.route) }
             )
         }
         composable(route = Routes.Favorites.route) {
             FavoritesScreen()
+        }
+        composable(route = Routes.Search.route) {
+            SearchScreen(
+                onBackClick = { navController.navigateUp() }
+            )
         }
     }
 
