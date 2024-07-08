@@ -5,43 +5,51 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.example.wallsplashcompose.presentation.favorites.FavoritesScreen
 import com.example.wallsplashcompose.presentation.home.HomeScreen
 import com.example.wallsplashcompose.presentation.home.HomeViewModel
+import com.example.wallsplashcompose.presentation.home.details.DetailsScreen
 import com.example.wallsplashcompose.presentation.search.SearchScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WallSplashNavGraph(
-    navController: NavHostController,
-    modifier: Modifier,
-    scrollBehavior: TopAppBarScrollBehavior
+    navController: NavHostController, modifier: Modifier, scrollBehavior: TopAppBarScrollBehavior
 ) {
     val viewModel = viewModel<HomeViewModel>()
     NavHost(
-        navController = navController,
-        startDestination = Routes.Home.route,
-        modifier = modifier
+        navController = navController, startDestination = Routes.Home.route, modifier = modifier
     ) {
         composable(route = Routes.Home.route) {
             HomeScreen(
                 scrollBehavior = scrollBehavior,
                 images = viewModel.images,
-                onImageClick = viewModel::onImageClick,
-                onSearchClick = { navController.navigate(Routes.Search.route) }
-            )
+                onImageClick = { imageId ->
+                    navController.navigate(Routes.DetailsScreen(imageId).route)
+                },
+                onSearchClick = { navController.navigate(Routes.Search.route) })
         }
         composable(route = Routes.Favorites.route) {
             FavoritesScreen()
         }
         composable(route = Routes.Search.route) {
-            SearchScreen(
-                onBackClick = { navController.navigateUp() }
-            )
+            SearchScreen(onBackClick = { navController.navigateUp() })
         }
+        composable(
+            route = Routes.DetailsScreen("{imageId}").route,
+            arguments = listOf(navArgument("imageId") {type = NavType.StringType})
+        ) { navBackStackEntry ->
+            val imageId = navBackStackEntry.arguments?.getString("imageId") ?: ""
+            DetailsScreen(imageId = imageId, onBackClick = { navController.navigateUp() })
+        }
+
     }
 
 }

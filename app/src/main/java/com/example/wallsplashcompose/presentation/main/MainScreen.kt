@@ -36,7 +36,7 @@ fun MainScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         bottomBar = {
-            if (currentRoute != Routes.Search.route) {
+            if (currentRoute == Routes.Home.route || currentRoute == Routes.Favorites.route) {
                 BottomNavBar(
                     navController = navController, currentRoute = currentRoute
                 )
