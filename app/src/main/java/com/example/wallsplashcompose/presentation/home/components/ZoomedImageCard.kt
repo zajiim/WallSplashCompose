@@ -1,6 +1,10 @@
 package com.example.wallsplashcompose.presentation.home.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -16,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.memory.MemoryCache
 import coil.request.ImageRequest
 import com.example.wallsplashcompose.domain.models.UnsplashImage
 import com.skydoves.cloudy.Cloudy
@@ -30,6 +35,7 @@ fun ZoomedImageCard(
     val imageRequest = ImageRequest.Builder(context)
         .data(image?.imageUrlRegular)
         .crossfade(true)
+        .placeholderMemoryCacheKey(MemoryCache.Key(image?.imageUrlSmall ?: ""))
         .build()
 
     Box(
@@ -43,12 +49,14 @@ fun ZoomedImageCard(
             ) {}
         }
             AnimatedVisibility(
+                modifier = Modifier.align(Alignment.Center),
                 visible = isVisible,
-                modifier = Modifier.align(Alignment.Center)
+                enter = scaleIn() + fadeIn(),
+                exit = scaleOut() + fadeOut()
             ) {
                 Card(modifier = modifier) {
                     AsyncImage(
-                        modifier = Modifier.fillMaxWidth(0.8f),
+                        modifier = Modifier.fillMaxWidth(0.9f),
                         model = imageRequest,
                         contentDescription = null
                     )
