@@ -11,7 +11,7 @@ import com.example.wallsplashcompose.presentation.ui.theme.WallSplashComposeThem
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
         installSplashScreen()
         setContent {
             WallSplashComposeTheme {
