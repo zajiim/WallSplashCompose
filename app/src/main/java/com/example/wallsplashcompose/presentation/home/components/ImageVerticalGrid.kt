@@ -40,7 +40,7 @@ fun ImageVerticalGrid(
                         detectTapGestures(
                             onLongPress = { onImageLongPress(image) },
                             onPress = {
-//                                awaitRelease()
+                                awaitRelease()
                                 onImagePressEnd()
                             }
                         ) {

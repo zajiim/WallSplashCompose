@@ -4,6 +4,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
@@ -23,7 +24,7 @@ import com.example.wallsplashcompose.presentation.search.SearchScreen
 fun WallSplashNavGraph(
     navController: NavHostController, modifier: Modifier, scrollBehavior: TopAppBarScrollBehavior
 ) {
-    val viewModel = viewModel<HomeViewModel>()
+    val viewModel:HomeViewModel = hiltViewModel()
     NavHost(
         navController = navController, startDestination = Routes.Home.route, modifier = modifier
     ) {

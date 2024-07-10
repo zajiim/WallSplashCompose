@@ -10,10 +10,16 @@ import com.example.wallsplashcompose.core.di.AppModule
 import com.example.wallsplashcompose.data.mapper.toUnsplashModelList
 import com.example.wallsplashcompose.data.remote.dto.UnsplashImageDto
 import com.example.wallsplashcompose.domain.models.UnsplashImage
+import com.example.wallsplashcompose.domain.repository.ImageRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 const val TAG = "HomeViewModel"
-class HomeViewModel: ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val imageRepository: ImageRepository
+): ViewModel() {
     var images: List<UnsplashImage> by mutableStateOf(emptyList())
         private set
 
@@ -23,9 +29,10 @@ class HomeViewModel: ViewModel() {
 
     private fun getImages() {
         viewModelScope.launch {
-            val result = AppModule.retrofitService.getEditorialFeedImages()
+//            val result = AppModule.retrofitService.getEditorialFeedImages()
+            val result = imageRepository.getHomeImages()
             Log.e(TAG, "getImages: $result")
-            images = result.toUnsplashModelList()
+            images = result
         }
     }
 
