@@ -16,6 +16,7 @@ import androidx.navigation.toRoute
 import com.example.wallsplashcompose.presentation.favorites.FavoritesScreen
 import com.example.wallsplashcompose.presentation.home.HomeScreen
 import com.example.wallsplashcompose.presentation.home.HomeViewModel
+import com.example.wallsplashcompose.presentation.home.details.DetailsImageViewModel
 import com.example.wallsplashcompose.presentation.home.details.DetailsScreen
 import com.example.wallsplashcompose.presentation.search.SearchScreen
 
@@ -46,9 +47,12 @@ fun WallSplashNavGraph(
         composable(
             route = Routes.DetailsScreen("{imageId}").route,
             arguments = listOf(navArgument("imageId") {type = NavType.StringType})
-        ) { navBackStackEntry ->
-            val imageId = navBackStackEntry.arguments?.getString("imageId") ?: ""
-            DetailsScreen(imageId = imageId, onBackClick = { navController.navigateUp() })
+        ) { /*navBackStackEntry ->
+            val imageId = navBackStackEntry.arguments?.getString("imageId") ?: ""*/
+            val detailsImageViewModel: DetailsImageViewModel = hiltViewModel()
+            DetailsScreen(
+                image = detailsImageViewModel.image,
+                onBackClick = { navController.navigateUp() })
         }
 
     }

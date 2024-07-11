@@ -11,12 +11,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.Modifier import com.example.wallsplashcompose.domain.models.UnsplashImage
 
 @Composable
 fun DetailsScreen(
+    image: UnsplashImage?,
     modifier: Modifier = Modifier,
-    imageId: String,
     onBackClick: () -> Unit
 ) {
     Box(
@@ -27,7 +27,7 @@ fun DetailsScreen(
             IconButton(onClick = { onBackClick() }) {
                 Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "go back")
             }
-            Text(text = "Image id is $imageId")
+            Text(text = "Image id is ${image?.id}")
         }
     }
 

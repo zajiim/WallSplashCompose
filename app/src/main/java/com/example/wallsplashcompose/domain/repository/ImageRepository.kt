@@ -4,4 +4,5 @@ import com.example.wallsplashcompose.domain.models.UnsplashImage
 
 interface ImageRepository {
     suspend fun getHomeImages(): List<UnsplashImage>
+    suspend fun getImage(imageId: String): UnsplashImage
 }
