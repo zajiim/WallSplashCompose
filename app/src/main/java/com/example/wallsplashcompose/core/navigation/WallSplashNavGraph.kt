@@ -1,5 +1,6 @@
 package com.example.wallsplashcompose.core.navigation
 
+import android.util.Log
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -25,13 +26,12 @@ import com.example.wallsplashcompose.presentation.search.SearchScreen
 fun WallSplashNavGraph(
     navController: NavHostController, modifier: Modifier, scrollBehavior: TopAppBarScrollBehavior
 ) {
-    val viewModel:HomeViewModel = hiltViewModel()
+    val viewModel: HomeViewModel = hiltViewModel()
     NavHost(
         navController = navController, startDestination = Routes.Home.route, modifier = modifier
     ) {
         composable(route = Routes.Home.route) {
-            HomeScreen(
-                scrollBehavior = scrollBehavior,
+            HomeScreen(scrollBehavior = scrollBehavior,
                 images = viewModel.images,
                 onImageClick = { imageId ->
                     navController.navigate(Routes.DetailsScreen(imageId).route)
@@ -46,12 +46,11 @@ fun WallSplashNavGraph(
         }
         composable(
             route = Routes.DetailsScreen("{imageId}").route,
-            arguments = listOf(navArgument("imageId") {type = NavType.StringType})
+            arguments = listOf(navArgument("imageId") { type = NavType.StringType })
         ) { /*navBackStackEntry ->
             val imageId = navBackStackEntry.arguments?.getString("imageId") ?: ""*/
             val detailsImageViewModel: DetailsImageViewModel = hiltViewModel()
-            DetailsScreen(
-                image = detailsImageViewModel.image,
+            DetailsScreen(image = detailsImageViewModel.image,
                 onBackClick = { navController.navigateUp() })
         }
 

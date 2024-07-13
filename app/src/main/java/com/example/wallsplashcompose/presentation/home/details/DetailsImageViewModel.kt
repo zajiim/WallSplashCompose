@@ -19,7 +19,7 @@ class DetailsImageViewModel @Inject constructor(
     private val imageRepository: ImageRepository,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
-    private val imageId = savedStateHandle.toRoute<Routes.DetailsScreen>().imageId
+    private val imageId: String = checkNotNull(savedStateHandle["imageId"])
     var image: UnsplashImage? by mutableStateOf(null)
         private set
 
