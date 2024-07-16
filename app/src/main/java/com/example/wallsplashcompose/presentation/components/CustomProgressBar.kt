@@ -57,7 +57,7 @@ fun LineScaleProgressIndicator(
                 animationSpec = infiniteRepeatable(
                     animation = keyframes {
                         durationMillis = duration
-                        0f at delay with LinearEasing
+                        0f at delay using LinearEasing
                         1f at delay + (animationDuration / 2) with LinearEasing
                         0f at delay + animationDuration
                         0f at duration
