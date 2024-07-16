@@ -50,8 +50,11 @@ fun WallSplashNavGraph(
         ) { /*navBackStackEntry ->
             val imageId = navBackStackEntry.arguments?.getString("imageId") ?: ""*/
             val detailsImageViewModel: DetailsImageViewModel = hiltViewModel()
-            DetailsScreen(image = detailsImageViewModel.image,
-                onBackClick = { navController.navigateUp() })
+            DetailsScreen(
+                image = detailsImageViewModel.image,
+                onBackClick = { navController.navigateUp() },
+                onPhotographerClick = {},
+                )
         }
 
     }

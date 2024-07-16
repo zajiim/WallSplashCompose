@@ -36,12 +36,16 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.wallsplashcompose.R
 import com.example.wallsplashcompose.domain.models.UnsplashImage
 import com.example.wallsplashcompose.presentation.components.LineScaleProgressIndicator
+import com.example.wallsplashcompose.presentation.home.details.components.DetailsTopAppBar
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
 @Composable
 fun DetailsScreen(
-    image: UnsplashImage?, modifier: Modifier = Modifier, onBackClick: () -> Unit
+    image: UnsplashImage?,
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit,
+    onPhotographerClick: (String) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     Box(
@@ -78,9 +82,7 @@ fun DetailsScreen(
                     isError = imageState is AsyncImagePainter.State.Error
                 })
 
-            IconButton(onClick = { onBackClick() }) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "go back")
-            }
+
 
             if (isLoading) {
                 LineScaleProgressIndicator()
@@ -111,6 +113,14 @@ fun DetailsScreen(
                     }
             )
         }
+        
+        DetailsTopAppBar(
+            modifier = Modifier.align(Alignment.TopCenter).fillMaxWidth(),
+            image = image,
+            onBackClick = { onBackClick() },
+            onPhotographerClick = onPhotographerClick,
+            onDownloadIconClick = {}
+        )
     }
 
 }
