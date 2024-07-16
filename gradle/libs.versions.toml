@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.0"
+agp = "8.5.1"
 cloudy = "0.1.2"
 coilCompose = "2.6.0"
 converterGson = "2.11.0"

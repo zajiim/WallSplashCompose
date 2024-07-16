@@ -1,6 +1,8 @@
 package com.example.wallsplashcompose.presentation.home.details
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.animateZoomBy
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Box
@@ -15,36 +17,49 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.wallsplashcompose.R
 import com.example.wallsplashcompose.domain.models.UnsplashImage
 import com.example.wallsplashcompose.presentation.components.LineScaleProgressIndicator
+import kotlinx.coroutines.launch
 import kotlin.math.max
 
 @Composable
 fun DetailsScreen(
     image: UnsplashImage?, modifier: Modifier = Modifier, onBackClick: () -> Unit
 ) {
+    val scope = rememberCoroutineScope()
     Box(
-        modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        BoxWithConstraints {
+        BoxWithConstraints(
+            modifier = modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+            ) {
             var scale by remember {
                 mutableFloatStateOf(1f)
             }
             var offset by remember {
                 mutableStateOf(Offset.Zero)
+            }
+            val isImageZoomed: Boolean by remember {
+                derivedStateOf { scale != 1f}
             }
             val transformState = rememberTransformableState { zoomChange, panChange, rotationChange ->
                 scale = max(scale * zoomChange, 1f)
@@ -76,6 +91,18 @@ fun DetailsScreen(
                 contentDescription = "Raw image",
                 modifier = Modifier
                     .transformable(transformState)
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onDoubleTap = {
+                                if (isImageZoomed) {
+                                    scale = 1f
+                                    offset = Offset.Zero
+                                } else {
+                                    scope.launch { transformState.animateZoomBy(zoomFactor = 3f) }
+                                }
+                            }
+                        )
+                    }
                     .graphicsLayer {
                         scaleX = scale
                         scaleY = scale
