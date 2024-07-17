@@ -61,6 +61,9 @@ fun WallSplashNavGraph(
                     Log.d("Navigation", "Constructed route: $route")
                     navController.navigate(route)
                 },
+                onDownloadClick = { url, title ->
+                    detailsImageViewModel.downloadImage(url, title)
+                }
             )
         }
 

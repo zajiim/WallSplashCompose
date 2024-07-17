@@ -1,5 +1,6 @@
 package com.example.wallsplashcompose.presentation.home.details
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateZoomBy
@@ -40,6 +41,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.wallsplashcompose.R
 import com.example.wallsplashcompose.domain.models.UnsplashImage
 import com.example.wallsplashcompose.presentation.components.DownloadOptionsBottomSheet
+import com.example.wallsplashcompose.presentation.components.ImageDownloadOptions
 import com.example.wallsplashcompose.presentation.components.LineScaleProgressIndicator
 import com.example.wallsplashcompose.presentation.home.details.components.DetailsTopAppBar
 import kotlinx.coroutines.launch
@@ -52,8 +54,10 @@ fun DetailsScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     onPhotographerClick: (String) -> Unit,
+    onDownloadClick: (String, String?) -> Unit
 ) {
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var isDownloadButtonSheetOpen by remember {
         mutableStateOf(false)
@@ -65,6 +69,16 @@ fun DetailsScreen(
         onOptionClick = { option ->
             scope.launch { sheetState.hide() }.invokeOnCompletion {
                 if (!sheetState.isVisible) isDownloadButtonSheetOpen = false
+            }
+            val url = when(option) {
+                ImageDownloadOptions.LOW -> image?.imageUrlSmall
+                ImageDownloadOptions.MEDIUM -> image?.imageUrlRegular
+                ImageDownloadOptions.HIGH -> image?.imageUrlRaw
+            }
+
+            url?.let {
+                onDownloadClick(it, image?.description?.take(10))
+                Toast.makeText(context, "Download started", Toast.LENGTH_SHORT).show()
             }
         } ,
         onDismissRequest = { isDownloadButtonSheetOpen = false }
