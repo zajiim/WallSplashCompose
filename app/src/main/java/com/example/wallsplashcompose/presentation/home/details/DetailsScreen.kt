@@ -1,6 +1,7 @@
 package com.example.wallsplashcompose.presentation.home.details
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateZoomBy
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
@@ -13,9 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -27,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
@@ -35,11 +39,13 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.wallsplashcompose.R
 import com.example.wallsplashcompose.domain.models.UnsplashImage
+import com.example.wallsplashcompose.presentation.components.DownloadOptionsBottomSheet
 import com.example.wallsplashcompose.presentation.components.LineScaleProgressIndicator
 import com.example.wallsplashcompose.presentation.home.details.components.DetailsTopAppBar
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
     image: UnsplashImage?,
@@ -48,6 +54,23 @@ fun DetailsScreen(
     onPhotographerClick: (String) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    var isDownloadButtonSheetOpen by remember {
+        mutableStateOf(false)
+    }
+
+    DownloadOptionsBottomSheet(
+        isOpen = isDownloadButtonSheetOpen,
+        sheetState = sheetState,
+        onOptionClick = { option ->
+            scope.launch { sheetState.hide() }.invokeOnCompletion {
+                if (!sheetState.isVisible) isDownloadButtonSheetOpen = false
+            }
+        } ,
+        onDismissRequest = { isDownloadButtonSheetOpen = false }
+    )
+
+
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -115,11 +138,13 @@ fun DetailsScreen(
         }
         
         DetailsTopAppBar(
-            modifier = Modifier.align(Alignment.TopCenter).fillMaxWidth(),
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .fillMaxWidth(),
             image = image,
             onBackClick = { onBackClick() },
             onPhotographerClick = onPhotographerClick,
-            onDownloadIconClick = {}
+            onDownloadIconClick = { isDownloadButtonSheetOpen = true }
         )
     }
 
