@@ -1,6 +1,7 @@
 package com.example.wallsplashcompose.presentation.home.details.components
 
 import android.widget.Space
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -43,7 +45,9 @@ fun DetailsTopAppBar(
         }
 
         AsyncImage(
-            modifier = Modifier.size(32.dp).clip(CircleShape),
+            modifier = Modifier
+                .size(32.dp)
+                .clip(CircleShape),
             model = image?.photographerProfileImage,
             contentDescription = null
         )
@@ -53,7 +57,9 @@ fun DetailsTopAppBar(
         Column(
             modifier = Modifier
                 .clickable {
-                    image?.let { onPhotographerClick(it.photographerProfileLink) }
+                    image?.let {
+                        onPhotographerClick(it.photographerProfileLink)
+                    }
 
                 }) {
 

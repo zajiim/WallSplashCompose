@@ -13,5 +13,5 @@ sealed class Routes(val route: String) {
     @Serializable
     data class DetailsScreen(val imageId: String): Routes("image/$imageId")
     @Serializable
-    data class ProfileScreen(val profileId: String): Routes("profile/$profileId")
+    data class ProfileScreen(val encodedProfileLink: String): Routes("profile/$encodedProfileLink")
 }

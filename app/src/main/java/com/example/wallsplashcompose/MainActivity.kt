@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.auto(
                 lightScrim = Color.Transparent.toArgb(),
@@ -26,7 +27,6 @@ class MainActivity : ComponentActivity() {
                 darkScrim = Color.Transparent.toArgb()
             )
         )
-        installSplashScreen()
         setContent {
             WallSplashComposeTheme {
                 MainScreen()

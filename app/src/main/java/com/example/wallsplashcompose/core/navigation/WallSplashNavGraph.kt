@@ -1,5 +1,6 @@
 package com.example.wallsplashcompose.core.navigation
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -19,6 +20,7 @@ import com.example.wallsplashcompose.presentation.home.HomeScreen
 import com.example.wallsplashcompose.presentation.home.HomeViewModel
 import com.example.wallsplashcompose.presentation.home.details.DetailsImageViewModel
 import com.example.wallsplashcompose.presentation.home.details.DetailsScreen
+import com.example.wallsplashcompose.presentation.profile.ProfileScreen
 import com.example.wallsplashcompose.presentation.search.SearchScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,8 +55,23 @@ fun WallSplashNavGraph(
             DetailsScreen(
                 image = detailsImageViewModel.image,
                 onBackClick = { navController.navigateUp() },
-                onPhotographerClick = {},
-                )
+                onPhotographerClick = { profileLink ->
+                    val encodedProfileLink = Uri.encode(profileLink)
+                    val route = Routes.ProfileScreen(encodedProfileLink).route
+                    Log.d("Navigation", "Constructed route: $route")
+                    navController.navigate(route)
+                },
+            )
+        }
+
+        composable(
+            route = Routes.ProfileScreen("{encodedProfileLink}").route,
+            arguments = listOf(navArgument("encodedProfileLink") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val encodedProfileLink = backStackEntry.arguments?.getString("encodedProfileLink") ?: ""
+            val decodedProfileLink = Uri.decode(encodedProfileLink)
+            Log.e("Navigation", "WallSplashNavGraph: ===> End $decodedProfileLink")
+            ProfileScreen(profileLink = decodedProfileLink, onBackClick = { navController.navigateUp() })
         }
 
     }
