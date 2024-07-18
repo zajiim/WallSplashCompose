@@ -3,6 +3,8 @@ package com.example.wallsplashcompose.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.wallsplashcompose.data.local.WallSplashDatabase
+import com.example.wallsplashcompose.data.mapper.toFavImageEntity
 import com.example.wallsplashcompose.data.mapper.toUnsplashModel
 import com.example.wallsplashcompose.data.mapper.toUnsplashModelList
 import com.example.wallsplashcompose.data.paging.SearchPagingSource
@@ -13,8 +15,10 @@ import com.example.wallsplashcompose.utils.Constants
 import kotlinx.coroutines.flow.Flow
 
 class ImageRepositoryImpl(
-    private val unsplashApi: UnsplashApiService
+    private val unsplashApi: UnsplashApiService,
+    private val database: WallSplashDatabase
 ): ImageRepository {
+    private val favImagesDao = database.favImagesDao()
     override suspend fun getHomeImages(): List<UnsplashImage> {
        return unsplashApi.getAllImages().toUnsplashModelList()
     }
@@ -35,5 +39,19 @@ class ImageRepositoryImpl(
                 )
             }
         ).flow
+    }
+
+    override suspend fun toggleFavStatus(image: UnsplashImage) {
+        val isFavorite = favImagesDao.isImageFav(image.id)
+        val favImage = image.toFavImageEntity()
+        if (isFavorite) {
+            favImagesDao.deleteFavImage(favImage)
+        } else {
+            favImagesDao.insertFavImage(favImage)
+        }
+    }
+
+    override fun getFavImageIds(): Flow<List<String>> {
+        return favImagesDao.getFavImageByIds()
     }
 }

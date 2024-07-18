@@ -1,6 +1,8 @@
 package com.example.wallsplashcompose.core.di
 
 import android.content.Context
+import androidx.room.Room
+import com.example.wallsplashcompose.data.local.WallSplashDatabase
 import com.example.wallsplashcompose.data.remote.UnsplashApiService
 import com.example.wallsplashcompose.data.repository.ImageDownloader
 import com.example.wallsplashcompose.data.repository.ImageRepositoryImpl
@@ -42,10 +44,27 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun providesWallSplashDatabase(
+        @ApplicationContext context: Context
+    ): WallSplashDatabase {
+        return Room
+            .databaseBuilder(
+                context,
+                WallSplashDatabase::class.java,
+                Constants.WALLSPLASH_DB
+            ).build()
+    }
+
+    @Provides
+    @Singleton
     fun provideImageRepository(
-        apiService: UnsplashApiService
+        apiService: UnsplashApiService,
+        database: WallSplashDatabase
     ): ImageRepository {
-        return ImageRepositoryImpl(apiService)
+        return ImageRepositoryImpl(
+            unsplashApi = apiService,
+            database = database
+            )
     }
 
     @Provides
@@ -55,4 +74,5 @@ object AppModule {
     ): Downloader {
         return ImageDownloader(context)
     }
+
 }

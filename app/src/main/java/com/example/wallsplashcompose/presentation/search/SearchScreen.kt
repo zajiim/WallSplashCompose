@@ -49,7 +49,9 @@ fun SearchScreen(
     scrollBehavior: TopAppBarScrollBehavior,
     searchImages: LazyPagingItems<UnsplashImage>,
     onImageClick: (String) -> Unit,
-    onSearch: (String) -> Unit
+    onSearch: (String) -> Unit,
+    onToggleFavStatus: (UnsplashImage) -> Unit,
+    favImageIds: List<String>
 ) {
     val focusRequester = remember {
         FocusRequester()
@@ -118,7 +120,8 @@ fun SearchScreen(
                     contentPadding = PaddingValues(10.dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    items(searchKeywords) { searchKeyword ->
+                    val randomizeKeywords = searchKeywords.shuffled()
+                    items(randomizeKeywords) { searchKeyword ->
                         SuggestionChip(onClick = {
                             query = searchKeyword
                             onSearch(query)
@@ -141,7 +144,10 @@ fun SearchScreen(
                     activeImage = image
                     showImagePreview = true
                 },
-                onImagePressEnd = { showImagePreview = false })
+                onImagePressEnd = { showImagePreview = false },
+                onToggleFavStatus = onToggleFavStatus,
+                favImageIds = favImageIds
+            )
         }
         ZoomedImageCard(
             modifier = Modifier.padding(24.dp), image = activeImage, isVisible = showImagePreview

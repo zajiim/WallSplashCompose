@@ -5,16 +5,16 @@ import android.util.Log
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavGraph
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.navigation.toRoute
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.wallsplashcompose.presentation.favorites.FavoritesScreen
 import com.example.wallsplashcompose.presentation.home.HomeScreen
@@ -49,14 +49,17 @@ fun WallSplashNavGraph(
         composable(route = Routes.Search.route) {
             val searchViewModel: SearchViewModel = hiltViewModel()
             val searchImages = searchViewModel.searchImages.collectAsLazyPagingItems()
+            val favImageIds by searchViewModel.favImagesIds.collectAsStateWithLifecycle()
             SearchScreen(
                 onBackClick = { navController.navigateUp() },
                 scrollBehavior = scrollBehavior,
                 onImageClick = { imageId ->
                     navController.navigate(Routes.DetailsScreen(imageId).route)
                 },
-                onSearch = searchViewModel::searchImages,
+                onSearch = searchViewModel::fetchSearchImages,
                 searchImages = searchImages,
+                onToggleFavStatus = searchViewModel::toggleFavStatus,
+                favImageIds = favImageIds
             )
         }
         composable(

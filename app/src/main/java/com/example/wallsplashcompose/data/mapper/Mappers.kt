@@ -1,5 +1,6 @@
 package com.example.wallsplashcompose.data.mapper
 
+import com.example.wallsplashcompose.data.local.entity.FavoriteImageEntity
 import com.example.wallsplashcompose.data.remote.dto.UnsplashImageDto
 import com.example.wallsplashcompose.domain.models.UnsplashImage
 
@@ -22,4 +23,21 @@ fun UnsplashImageDto.toUnsplashModel(): UnsplashImage {
 
 fun List<UnsplashImageDto>.toUnsplashModelList(): List<UnsplashImage> {
     return this.map { it.toUnsplashModel() }
+}
+
+fun UnsplashImage.toFavImageEntity(): FavoriteImageEntity {
+    return FavoriteImageEntity(
+        id = this.id,
+        description = description,
+        imageUrlSmall = this.imageUrlSmall,
+        imageUrlRegular = this.imageUrlRegular,
+        imageUrlRaw = this.imageUrlRaw,
+        blurHash = this.blurHash,
+        photographerName = this.photographerName,
+        photographerUsername = this.photographerUsername,
+        photographerProfileImage = this.photographerProfileImage,
+        photographerProfileLink = this.photographerProfileLink,
+        width = this.width,
+        height = this.height
+    )
 }
