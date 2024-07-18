@@ -34,6 +34,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import com.example.wallsplashcompose.domain.models.UnsplashImage
 import com.example.wallsplashcompose.presentation.home.components.ImageVerticalGrid
 import com.example.wallsplashcompose.presentation.home.components.ZoomedImageCard
@@ -46,8 +47,9 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
-    images: List<UnsplashImage>,
+    searchImages: LazyPagingItems<UnsplashImage>,
     onImageClick: (String) -> Unit,
+    onSearch: (String) -> Unit
 ) {
     val focusRequester = remember {
         FocusRequester()
@@ -99,6 +101,7 @@ fun SearchScreen(
                     }
                 },
                 onSearch = {
+                    onSearch(query)
                     keyboardController?.hide()
                     focusManager.clearFocus()
                 },
@@ -118,6 +121,7 @@ fun SearchScreen(
                     items(searchKeywords) { searchKeyword ->
                         SuggestionChip(onClick = {
                             query = searchKeyword
+                            onSearch(query)
                             keyboardController?.hide()
                             focusManager.clearFocus()
                         },
@@ -131,7 +135,7 @@ fun SearchScreen(
                 }
             }
 
-            ImageVerticalGrid(images = emptyList(),
+            ImageVerticalGrid(images = searchImages,
                 onItemClick = onImageClick,
                 onImageLongPress = { image ->
                     activeImage = image

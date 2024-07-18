@@ -11,12 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import com.example.wallsplashcompose.domain.models.UnsplashImage
 
 @Composable
 fun ImageVerticalGrid(
     modifier: Modifier = Modifier,
-    images: List<UnsplashImage?>,
+//    images: List<UnsplashImage?>,
+    images: LazyPagingItems<UnsplashImage>,
     onItemClick: (String) -> Unit,
     onImageLongPress: (UnsplashImage?) -> Unit,
     onImagePressEnd: () -> Unit
@@ -28,7 +30,8 @@ fun ImageVerticalGrid(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalItemSpacing = 8.dp
     ) {
-        items(images) { image ->
+        items(count = images.itemCount) { index ->
+            val image = images[index]
             ImageCard(image = image, modifier = Modifier.pointerInput(Unit) {
                 detectTapGestures(onLongPress = {
                     onImageLongPress(image)

@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.toRoute
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.wallsplashcompose.presentation.favorites.FavoritesScreen
 import com.example.wallsplashcompose.presentation.home.HomeScreen
 import com.example.wallsplashcompose.presentation.home.HomeViewModel
@@ -22,6 +23,7 @@ import com.example.wallsplashcompose.presentation.home.details.DetailsImageViewM
 import com.example.wallsplashcompose.presentation.home.details.DetailsScreen
 import com.example.wallsplashcompose.presentation.profile.ProfileScreen
 import com.example.wallsplashcompose.presentation.search.SearchScreen
+import com.example.wallsplashcompose.presentation.search.SearchViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,13 +47,16 @@ fun WallSplashNavGraph(
             FavoritesScreen()
         }
         composable(route = Routes.Search.route) {
+            val searchViewModel: SearchViewModel = hiltViewModel()
+            val searchImages = searchViewModel.searchImages.collectAsLazyPagingItems()
             SearchScreen(
                 onBackClick = { navController.navigateUp() },
                 scrollBehavior = scrollBehavior,
                 onImageClick = { imageId ->
                     navController.navigate(Routes.DetailsScreen(imageId).route)
                 },
-                images = emptyList()
+                onSearch = searchViewModel::searchImages,
+                searchImages = searchImages,
             )
         }
         composable(

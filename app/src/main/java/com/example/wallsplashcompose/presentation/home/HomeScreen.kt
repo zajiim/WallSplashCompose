@@ -42,14 +42,15 @@ fun HomeScreen(
                 title = "Wall Splash"
             )
 
-            ImageVerticalGrid(
-                images = images,
-                onItemClick = onImageClick,
-                onImageLongPress = { image ->
-                    activeImage = image
-                    showImagePreview = true
-                },
-                onImagePressEnd = { showImagePreview = false })
+//            ImageVerticalGrid(
+//                images = images,
+//                onItemClick = onImageClick,
+//                onImageLongPress = { image ->
+//                    activeImage = image
+//                    showImagePreview = true
+//                },
+//                onImagePressEnd = { showImagePreview = false }
+//            )
         }
         ZoomedImageCard(
             modifier = Modifier.padding(24.dp),
