@@ -33,7 +33,8 @@ fun WallSplashNavGraph(
         navController = navController, startDestination = Routes.Home.route, modifier = modifier
     ) {
         composable(route = Routes.Home.route) {
-            HomeScreen(scrollBehavior = scrollBehavior,
+            HomeScreen(
+                scrollBehavior = scrollBehavior,
                 images = viewModel.images,
                 onImageClick = { imageId ->
                     navController.navigate(Routes.DetailsScreen(imageId).route)
@@ -44,7 +45,14 @@ fun WallSplashNavGraph(
             FavoritesScreen()
         }
         composable(route = Routes.Search.route) {
-            SearchScreen(onBackClick = { navController.navigateUp() })
+            SearchScreen(
+                onBackClick = { navController.navigateUp() },
+                scrollBehavior = scrollBehavior,
+                onImageClick = { imageId ->
+                    navController.navigate(Routes.DetailsScreen(imageId).route)
+                },
+                images = emptyList()
+            )
         }
         composable(
             route = Routes.DetailsScreen("{imageId}").route,

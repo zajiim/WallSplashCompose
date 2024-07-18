@@ -50,11 +50,6 @@ fun HomeScreen(
                     showImagePreview = true
                 },
                 onImagePressEnd = { showImagePreview = false })
-//                onImageDragStart = { image ->
-//                    activeImage = image
-//                    showImagePreview = true
-//                },
-//                onImageDragEnd = { showImagePreview = false })
         }
         ZoomedImageCard(
             modifier = Modifier.padding(24.dp),
