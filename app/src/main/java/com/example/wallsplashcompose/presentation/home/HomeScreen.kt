@@ -4,7 +4,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -38,8 +42,15 @@ fun HomeScreen(
         Column {
             CustomTopAppBar(
                 scrollBehavior = scrollBehavior,
-                onSearchClick = { onSearchClick() },
-                title = "Wall Splash"
+                title = "Wall Splash",
+                actions = {
+                    IconButton(onClick = { onSearchClick() }) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "search"
+                        )
+                    }
+                }
             )
 
 //            ImageVerticalGrid(

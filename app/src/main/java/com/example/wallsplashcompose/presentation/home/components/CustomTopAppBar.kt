@@ -1,6 +1,7 @@
 package com.example.wallsplashcompose.presentation.home.components
 
 import androidx.compose.foundation.content.MediaType.Companion.Text
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -29,7 +30,8 @@ fun CustomTopAppBar(
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior,
     title: String,
-    onSearchClick: () -> Unit
+    navigationIcon: @Composable () -> Unit = {},
+    actions:  @Composable() (RowScope.() -> Unit) = {}
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -57,16 +59,10 @@ fun CustomTopAppBar(
 
             )
         },
-        actions = {
-            IconButton(onClick = { onSearchClick() }) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "search"
-                )
-            }
-        },
+        actions = actions,
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             scrolledContainerColor = MaterialTheme.colorScheme.background
-        )
+        ),
+        navigationIcon = navigationIcon
     )
 }

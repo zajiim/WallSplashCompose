@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.Flow
 interface ImageRepository {
     suspend fun getHomeImages(): List<UnsplashImage>
     suspend fun getImage(imageId: String): UnsplashImage
-    suspend fun searchImage(query: String): Flow<PagingData<UnsplashImage>>
+    fun searchImage(query: String): Flow<PagingData<UnsplashImage>>
+    fun getAllFavImages(): Flow<PagingData<UnsplashImage>>
     suspend fun toggleFavStatus(image: UnsplashImage)
     fun getFavImageIds(): Flow<List<String>>
 }

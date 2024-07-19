@@ -41,3 +41,20 @@ fun UnsplashImage.toFavImageEntity(): FavoriteImageEntity {
         height = this.height
     )
 }
+
+fun FavoriteImageEntity.toUnSplashModel(): UnsplashImage {
+    return UnsplashImage(
+        id = this.id,
+        description = description,
+        imageUrlSmall = this.imageUrlSmall,
+        imageUrlRegular = this.imageUrlRegular,
+        imageUrlRaw = this.imageUrlRaw,
+        blurHash = this.blurHash,
+        photographerName = this.photographerName,
+        photographerUsername = this.photographerUsername,
+        photographerProfileImage = this.photographerProfileImage,
+        photographerProfileLink = this.photographerProfileLink,
+        width = this.width,
+        height = this.height
+    )
+}
