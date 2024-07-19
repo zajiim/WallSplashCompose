@@ -29,7 +29,7 @@ fun DownloadOptionsBottomSheet(
     if (isOpen) {
         ModalBottomSheet(
             modifier = modifier,
-            containerColor = White,
+            containerColor = MaterialTheme.colorScheme.onBackground,
             sheetState = sheetState,
             onDismissRequest = { onDismissRequest() }
         ) {
