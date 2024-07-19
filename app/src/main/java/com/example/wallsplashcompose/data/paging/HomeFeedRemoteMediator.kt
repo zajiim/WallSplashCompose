@@ -30,18 +30,24 @@ class HomeFeedRemoteMediator(
         try {
             val currentPage = when(loadType) {
                 LoadType.REFRESH -> {
-                    STARTING_PAGE_INDEX
+//                    STARTING_PAGE_INDEX
+                    val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
+                    remoteKeys?.nextPage?.minus(1) ?: STARTING_PAGE_INDEX
                 }
                 LoadType.PREPEND -> {
                     val remoteKeys = getRemoteKeysForFirstItem(state)
                     val prevPage = remoteKeys?.prevPage
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                        ?: return MediatorResult.Success(
+                            endOfPaginationReached = remoteKeys != null
+                        )
                     prevPage
                 }
                 LoadType.APPEND -> {
                     val remoteKeys = getRemoteKeysForLastItem(state)
                     val nextPage = remoteKeys?.nextPage
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                        ?: return MediatorResult.Success(
+                            endOfPaginationReached = remoteKeys != null
+                        )
                     nextPage
                 }
             }
@@ -72,6 +78,16 @@ class HomeFeedRemoteMediator(
 
         } catch (e: Exception) {
             return MediatorResult.Error(e)
+        }
+    }
+
+    private suspend fun getRemoteKeyClosestToCurrentPosition(
+        state: PagingState<Int, UnsplashImageEntity>
+    ): UnsplashRemoteKeys? {
+        return state.anchorPosition?.let { position ->
+            state.closestItemToPosition(position)?.id?.let { id ->
+                homeFeedDao.getRemoteKeys(id)
+            }
         }
     }
 
