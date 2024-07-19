@@ -39,6 +39,7 @@ import com.example.wallsplashcompose.domain.models.UnsplashImage
 import com.example.wallsplashcompose.presentation.components.ImageVerticalGrid
 import com.example.wallsplashcompose.presentation.home.components.ZoomedImageCard
 import com.example.wallsplashcompose.utils.searchKeywords
+import com.example.wallsplashcompose.utils.shuffledSearchKeys
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,11 +78,11 @@ fun SearchScreen(
         focusRequester.requestFocus()
     }
 
-
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
-            SearchBar(modifier = Modifier
-                .padding(vertical = 10.dp)
+            SearchBar(
+                modifier = Modifier
+                .padding(vertical = 10.dp, horizontal = 16.dp)
                 .focusRequester(focusRequester)
                 .onFocusChanged { isSuggestionChipsVisible = it.isFocused },
                 query = query,
@@ -120,8 +121,7 @@ fun SearchScreen(
                     contentPadding = PaddingValues(10.dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    val randomizeKeywords = searchKeywords.shuffled()
-                    items(randomizeKeywords) { searchKeyword ->
+                    items(shuffledSearchKeys) { searchKeyword ->
                         SuggestionChip(onClick = {
                             query = searchKeyword
                             onSearch(query)

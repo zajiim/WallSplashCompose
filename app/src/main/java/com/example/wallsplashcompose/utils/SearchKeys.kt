@@ -22,3 +22,5 @@ val searchKeywords: List<String> = listOf(
     "Animals",
     "Popular"
 )
+
+val shuffledSearchKeys: List<String> = searchKeywords.shuffled()

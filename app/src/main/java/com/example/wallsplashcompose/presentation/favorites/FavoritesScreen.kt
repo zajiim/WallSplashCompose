@@ -46,15 +46,7 @@ fun FavoritesScreen(
         Column {
             CustomTopAppBar(
                 scrollBehavior = scrollBehavior,
-                title = "Favorite Images",
-                navigationIcon = {
-                    IconButton(onClick = { onBackClick() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "go back"
-                        )
-                    }
-                }
+                title = "Favorite Images"
             )
 
 
