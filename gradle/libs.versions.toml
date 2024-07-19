@@ -2,6 +2,7 @@
 agp = "8.5.1"
 cloudy = "0.1.2"
 coilCompose = "2.6.0"
+composeImageBlurhash = "2.1.0"
 converterGson = "2.11.0"
 coreSplashscreen = "1.0.1"
 hiltAndroid = "2.49"
@@ -43,6 +44,7 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVers
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
 cloudy = { module = "com.github.skydoves:cloudy", version.ref = "cloudy" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+compose-image-blurhash = { module = "com.github.orlando-dev-code:compose-image-blurhash", version.ref = "composeImageBlurhash" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "converterGson" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }

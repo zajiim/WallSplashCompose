@@ -1,4 +1,4 @@
-package com.example.wallsplashcompose.presentation.home.components
+package com.example.wallsplashcompose.presentation.components
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -11,12 +11,10 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.example.wallsplashcompose.domain.models.UnsplashImage
-import com.example.wallsplashcompose.presentation.components.ImageCard
 
 @Composable
 fun ImageVerticalGrid(
     modifier: Modifier = Modifier,
-//    images: List<UnsplashImage?>,
     images: LazyPagingItems<UnsplashImage>,
     onItemClick: (String) -> Unit,
     onImageLongPress: (UnsplashImage?) -> Unit,

@@ -36,7 +36,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.example.wallsplashcompose.domain.models.UnsplashImage
-import com.example.wallsplashcompose.presentation.home.components.ImageVerticalGrid
+import com.example.wallsplashcompose.presentation.components.ImageVerticalGrid
 import com.example.wallsplashcompose.presentation.home.components.ZoomedImageCard
 import com.example.wallsplashcompose.utils.searchKeywords
 import kotlinx.coroutines.delay

@@ -74,8 +74,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.coil.compose)
 
+    //Coil
+    implementation(libs.coil.compose)
+    //BlurHash
+    implementation(libs.compose.image.blurhash)
     // Room
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)

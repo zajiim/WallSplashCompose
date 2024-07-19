@@ -11,7 +11,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.example.wallsplashcompose.domain.models.UnsplashImage
-import com.example.wallsplashcompose.presentation.home.components.CustomTopAppBar
-import com.example.wallsplashcompose.presentation.home.components.ImageVerticalGrid
+import com.example.wallsplashcompose.presentation.components.CustomTopAppBar
+import com.example.wallsplashcompose.presentation.components.ImageVerticalGrid
 import com.example.wallsplashcompose.presentation.home.components.ZoomedImageCard
 
 @OptIn(ExperimentalMaterial3Api::class)
