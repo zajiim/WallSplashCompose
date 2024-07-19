@@ -29,7 +29,9 @@ import com.example.wallsplashcompose.presentation.search.SearchViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WallSplashNavGraph(
-    navController: NavHostController, modifier: Modifier, scrollBehavior: TopAppBarScrollBehavior
+    navController: NavHostController,
+    modifier: Modifier,
+    scrollBehavior: TopAppBarScrollBehavior
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     NavHost(

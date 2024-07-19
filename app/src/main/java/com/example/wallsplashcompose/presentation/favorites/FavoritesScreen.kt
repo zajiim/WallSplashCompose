@@ -39,6 +39,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.example.wallsplashcompose.domain.models.UnsplashImage
+import com.example.wallsplashcompose.presentation.components.EmptyScreen
 import com.example.wallsplashcompose.presentation.home.components.CustomTopAppBar
 import com.example.wallsplashcompose.presentation.home.components.ImageVerticalGrid
 import com.example.wallsplashcompose.presentation.home.components.ZoomedImageCard
@@ -98,5 +99,12 @@ fun FavoritesScreen(
             image = activeImage,
             isVisible = showImagePreview
         )
+        if(favoriteImages.itemCount == 0) {
+            EmptyScreen(
+                modifier = Modifier.fillMaxSize().padding(16.dp),
+                title = "No Favorite images",
+                subtitle = "Give love to your favorite images"
+            )
+        }
     }
 }
