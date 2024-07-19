@@ -11,7 +11,10 @@ import retrofit2.http.Query
 interface UnsplashApiService {
     @Headers("Authorization: Client-ID ${Constants.API_KEY}")
     @GET("/photos")
-    suspend fun getAllImages(): List<UnsplashImageDto>
+    suspend fun getAllImages(
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int,
+    ): List<UnsplashImageDto>
 
 
     @Headers("Authorization: Client-ID ${Constants.API_KEY}")

@@ -1,4 +1,4 @@
-package com.example.wallsplashcompose.data.local
+package com.example.wallsplashcompose.data.local.dao
 
 import androidx.paging.PagingSource
 import androidx.room.Dao

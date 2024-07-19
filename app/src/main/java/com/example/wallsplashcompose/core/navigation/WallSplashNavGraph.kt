@@ -33,18 +33,23 @@ fun WallSplashNavGraph(
     modifier: Modifier,
     scrollBehavior: TopAppBarScrollBehavior
 ) {
-    val viewModel: HomeViewModel = hiltViewModel()
     NavHost(
         navController = navController, startDestination = Routes.Home.route, modifier = modifier
     ) {
         composable(route = Routes.Home.route) {
+            val homeViewModel: HomeViewModel = hiltViewModel()
+            val homeImages = homeViewModel.homeImages.collectAsLazyPagingItems()
+            val favImageIds by homeViewModel.favImagesIds.collectAsStateWithLifecycle()
             HomeScreen(
                 scrollBehavior = scrollBehavior,
-                images = viewModel.images,
+                images = homeImages,
                 onImageClick = { imageId ->
                     navController.navigate(Routes.DetailsScreen(imageId).route)
                 },
-                onSearchClick = { navController.navigate(Routes.Search.route) })
+                onSearchClick = { navController.navigate(Routes.Search.route) },
+                onToggleFavStatus = homeViewModel::toggleFavStatus,
+                favImageIds = favImageIds
+                )
         }
         composable(route = Routes.Favorites.route) {
             val favoritesViewModel: FavoritesViewModel = hiltViewModel()

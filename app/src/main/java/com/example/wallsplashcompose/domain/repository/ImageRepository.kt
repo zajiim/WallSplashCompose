@@ -5,7 +5,7 @@ import com.example.wallsplashcompose.domain.models.UnsplashImage
 import kotlinx.coroutines.flow.Flow
 
 interface ImageRepository {
-    suspend fun getHomeImages(): List<UnsplashImage>
+    fun getHomeImages(): Flow<PagingData<UnsplashImage>>
     suspend fun getImage(imageId: String): UnsplashImage
     fun searchImage(query: String): Flow<PagingData<UnsplashImage>>
     fun getAllFavImages(): Flow<PagingData<UnsplashImage>>

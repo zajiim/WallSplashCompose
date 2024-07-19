@@ -64,8 +64,6 @@ fun FavoritesScreen(
         mutableStateOf<UnsplashImage?>(null)
     }
 
-
-
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             CustomTopAppBar(

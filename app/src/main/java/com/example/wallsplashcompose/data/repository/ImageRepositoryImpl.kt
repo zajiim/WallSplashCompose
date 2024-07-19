@@ -1,5 +1,6 @@
 package com.example.wallsplashcompose.data.repository
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -9,6 +10,7 @@ import com.example.wallsplashcompose.data.mapper.toFavImageEntity
 import com.example.wallsplashcompose.data.mapper.toUnSplashModel
 import com.example.wallsplashcompose.data.mapper.toUnsplashModel
 import com.example.wallsplashcompose.data.mapper.toUnsplashModelList
+import com.example.wallsplashcompose.data.paging.HomeFeedRemoteMediator
 import com.example.wallsplashcompose.data.paging.SearchPagingSource
 import com.example.wallsplashcompose.data.remote.UnsplashApiService
 import com.example.wallsplashcompose.domain.models.UnsplashImage
@@ -22,8 +24,24 @@ class ImageRepositoryImpl(
     private val database: WallSplashDatabase
 ): ImageRepository {
     private val favImagesDao = database.favImagesDao()
-    override suspend fun getHomeImages(): List<UnsplashImage> {
-       return unsplashApi.getAllImages().toUnsplashModelList()
+    private val homeFeedDao = database.homeFeedDao()
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getHomeImages(): Flow<PagingData<UnsplashImage>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = Constants.PER_PAGE_ITEMS
+            ),
+            remoteMediator = HomeFeedRemoteMediator(
+                apiService = unsplashApi,
+                database = database
+            ),
+            pagingSourceFactory = {
+                homeFeedDao.getAllHomeImages()
+            }
+        ).flow
+            .map { pagingData ->
+                pagingData.map { it.toUnSplashModel() }
+            }
     }
 
     override suspend fun getImage(imageId: String): UnsplashImage {

@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import com.example.wallsplashcompose.domain.models.UnsplashImage
 import com.example.wallsplashcompose.presentation.home.components.CustomTopAppBar
 import com.example.wallsplashcompose.presentation.home.components.ImageVerticalGrid
@@ -27,9 +28,11 @@ import com.example.wallsplashcompose.presentation.home.components.ZoomedImageCar
 @Composable
 fun HomeScreen(
     scrollBehavior: TopAppBarScrollBehavior,
-    images: List<UnsplashImage>,
+    images: LazyPagingItems<UnsplashImage>,
     onImageClick: (String) -> Unit,
-    onSearchClick: () -> Unit
+    onSearchClick: () -> Unit,
+    onToggleFavStatus: (UnsplashImage) -> Unit,
+    favImageIds: List<String>,
 ) {
     var showImagePreview by remember {
         mutableStateOf(false)
@@ -53,15 +56,18 @@ fun HomeScreen(
                 }
             )
 
-//            ImageVerticalGrid(
-//                images = images,
-//                onItemClick = onImageClick,
-//                onImageLongPress = { image ->
-//                    activeImage = image
-//                    showImagePreview = true
-//                },
-//                onImagePressEnd = { showImagePreview = false }
-//            )
+            ImageVerticalGrid(
+                images = images,
+                onItemClick = onImageClick,
+                onImageLongPress = { image ->
+                    activeImage = image
+                    showImagePreview = true
+                },
+                onImagePressEnd = { showImagePreview = false },
+                onToggleFavStatus = onToggleFavStatus,
+                favImageIds = favImageIds
+            )
+
         }
         ZoomedImageCard(
             modifier = Modifier.padding(24.dp),
