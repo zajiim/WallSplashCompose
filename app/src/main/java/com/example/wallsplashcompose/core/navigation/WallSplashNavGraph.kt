@@ -2,10 +2,12 @@ package com.example.wallsplashcompose.core.navigation
 
 import android.net.Uri
 import android.util.Log
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,7 +36,19 @@ fun WallSplashNavGraph(
     scrollBehavior: TopAppBarScrollBehavior
 ) {
     NavHost(
-        navController = navController, startDestination = Routes.Home.route, modifier = modifier
+        navController = navController,
+        startDestination = Routes.Home.route,
+        modifier = modifier,
+        enterTransition = {
+            fadeIn(animationSpec = tween(400)) + slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Start
+            )
+        },
+        popEnterTransition = {
+            fadeIn(animationSpec = tween(400)) + slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.End
+            )
+        }
     ) {
         composable(route = Routes.Home.route) {
             val homeViewModel: HomeViewModel = hiltViewModel()
@@ -56,7 +70,6 @@ fun WallSplashNavGraph(
             val favImages = favoritesViewModel.favImages.collectAsLazyPagingItems()
             val favImageIds by favoritesViewModel.favImagesIds.collectAsStateWithLifecycle()
             FavoritesScreen(
-                onBackClick = { navController.navigateUp() },
                 favoriteImages = favImages,
                 onImageClick = { imageId ->
                     navController.navigate(Routes.DetailsScreen(imageId).route)
@@ -72,7 +85,6 @@ fun WallSplashNavGraph(
             val favImageIds by searchViewModel.favImagesIds.collectAsStateWithLifecycle()
             SearchScreen(
                 onBackClick = { navController.navigateUp() },
-                scrollBehavior = scrollBehavior,
                 onImageClick = { imageId ->
                     navController.navigate(Routes.DetailsScreen(imageId).route)
                 },

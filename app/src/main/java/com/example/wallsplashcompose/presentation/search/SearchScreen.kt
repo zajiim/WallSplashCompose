@@ -20,7 +20,6 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -38,16 +37,13 @@ import androidx.paging.compose.LazyPagingItems
 import com.example.wallsplashcompose.domain.models.UnsplashImage
 import com.example.wallsplashcompose.presentation.components.ImageVerticalGrid
 import com.example.wallsplashcompose.presentation.home.components.ZoomedImageCard
-import com.example.wallsplashcompose.utils.searchKeywords
 import com.example.wallsplashcompose.utils.shuffledSearchKeys
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
-    scrollBehavior: TopAppBarScrollBehavior,
     searchImages: LazyPagingItems<UnsplashImage>,
     onImageClick: (String) -> Unit,
     onSearch: (String) -> Unit,

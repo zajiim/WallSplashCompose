@@ -23,7 +23,7 @@ fun CustomTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     title: String,
     navigationIcon: @Composable () -> Unit = {},
-    actions:  @Composable() (RowScope.() -> Unit) = {}
+    actions:  @Composable (RowScope.() -> Unit) = {}
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,
