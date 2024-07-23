@@ -46,7 +46,8 @@ fun MainScreen(
         WallSplashNavGraph(
             navController = navController,
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(bottom = innerPadding.calculateBottomPadding()),
             scrollBehavior = scrollBehavior
         )
     }
