@@ -10,7 +10,6 @@ import java.io.File
 class ImageDownloader(
     context: Context
 ): Downloader {
-//    private val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
     private val downloadManager = context
         .getSystemService(DownloadManager::class.java)
 

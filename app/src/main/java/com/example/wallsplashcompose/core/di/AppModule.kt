@@ -1,6 +1,8 @@
 package com.example.wallsplashcompose.core.di
 
+import android.app.WallpaperManager
 import android.content.Context
+import androidx.room.ProvidedAutoMigrationSpec
 import androidx.room.Room
 import com.example.wallsplashcompose.data.local.WallSplashDatabase
 import com.example.wallsplashcompose.data.remote.UnsplashApiService
@@ -8,6 +10,8 @@ import com.example.wallsplashcompose.data.repository.ImageDownloader
 import com.example.wallsplashcompose.data.repository.ImageRepositoryImpl
 import com.example.wallsplashcompose.domain.repository.Downloader
 import com.example.wallsplashcompose.domain.repository.ImageRepository
+import com.example.wallsplashcompose.domain.repository.WallpaperSetter
+import com.example.wallsplashcompose.data.repository.WallpaperSetterManager
 import com.example.wallsplashcompose.utils.Constants
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -73,6 +77,14 @@ object AppModule {
         @ApplicationContext context: Context
     ): Downloader {
         return ImageDownloader(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWallpaperSetter(
+        @ApplicationContext context: Context
+    ): WallpaperSetter {
+        return WallpaperSetterManager(context)
     }
 
 }

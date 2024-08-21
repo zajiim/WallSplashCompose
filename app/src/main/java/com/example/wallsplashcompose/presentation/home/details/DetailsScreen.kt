@@ -1,5 +1,6 @@
 package com.example.wallsplashcompose.presentation.home.details
 
+import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.animateZoomBy
@@ -37,6 +38,8 @@ import com.example.wallsplashcompose.presentation.components.ImageDownloadOption
 import com.example.wallsplashcompose.presentation.components.LineScaleProgressIndicator
 import com.example.wallsplashcompose.presentation.home.details.components.DetailsTopAppBar
 import com.example.wallsplashcompose.presentation.home.details.components.SetAsWallpaperBottomSheet
+import com.example.wallsplashcompose.presentation.home.details.components.SetAsWallpaperOptions
+import com.example.wallsplashcompose.utils.loadBitmap
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
@@ -47,7 +50,8 @@ fun DetailsScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     onPhotographerClick: (String) -> Unit,
-    onDownloadClick: (String, String?) -> Unit
+    onDownloadClick: (String, String?) -> Unit,
+    onSetAsWallpaperClick: (Bitmap, SetAsWallpaperOptions) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -85,6 +89,14 @@ fun DetailsScreen(
         onOptionClick = { option ->
             scope.launch { sheetState.hide() }.invokeOnCompletion {
                 if (!sheetState.isVisible) isSetAsWallpaperButtonSheetOpen = false
+            }
+            image?.let { unsplashImage ->
+                scope.launch {
+                    val bitmap = loadBitmap(unsplashImage.imageUrlRaw, context)
+                    bitmap?.let {
+                        onSetAsWallpaperClick(bitmap, option)
+                    }
+                }
             }
         },
         onDismissRequest = { isSetAsWallpaperButtonSheetOpen = false }

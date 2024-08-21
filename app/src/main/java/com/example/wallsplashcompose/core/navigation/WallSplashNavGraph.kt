@@ -111,6 +111,9 @@ fun WallSplashNavGraph(
                 },
                 onDownloadClick = { url, title ->
                     detailsImageViewModel.downloadImage(url, title)
+                },
+                onSetAsWallpaperClick = { image, type ->
+                    detailsImageViewModel.setWallpaper(image, type)
                 }
             )
         }

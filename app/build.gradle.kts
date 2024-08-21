@@ -11,7 +11,7 @@ plugins {
 
 android {
     namespace = "com.example.wallsplashcompose"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.wallsplashcompose"
