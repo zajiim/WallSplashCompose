@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +35,8 @@ fun DetailsTopAppBar(
     image: UnsplashImage?,
     onBackClick: () -> Unit,
     onPhotographerClick: (String) -> Unit,
-    onDownloadIconClick: () -> Unit
+    onDownloadIconClick: () -> Unit,
+    onSetAsWallpaperIconClick: () -> Unit
 ) {
     Row(
         modifier = modifier,
@@ -75,6 +77,15 @@ fun DetailsTopAppBar(
 
         }
         Spacer(modifier = Modifier.weight(1f))
+        
+        IconButton(onClick = { onSetAsWallpaperIconClick() }) {
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowUp,
+                contentDescription = "Set as wallpaper",
+                tint = MaterialTheme.colorScheme.onBackground
+            )
+            
+        }
 
         IconButton(onClick = { onDownloadIconClick() }) {
             Icon(

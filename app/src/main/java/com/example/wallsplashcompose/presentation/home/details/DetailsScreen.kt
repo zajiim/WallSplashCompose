@@ -36,6 +36,7 @@ import com.example.wallsplashcompose.presentation.components.DownloadOptionsBott
 import com.example.wallsplashcompose.presentation.components.ImageDownloadOptions
 import com.example.wallsplashcompose.presentation.components.LineScaleProgressIndicator
 import com.example.wallsplashcompose.presentation.home.details.components.DetailsTopAppBar
+import com.example.wallsplashcompose.presentation.home.details.components.SetAsWallpaperBottomSheet
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
@@ -52,6 +53,9 @@ fun DetailsScreen(
     val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var isDownloadButtonSheetOpen by remember {
+        mutableStateOf(false)
+    }
+    var isSetAsWallpaperButtonSheetOpen by remember {
         mutableStateOf(false)
     }
 
@@ -75,10 +79,22 @@ fun DetailsScreen(
         } ,
         onDismissRequest = { isDownloadButtonSheetOpen = false }
     )
+    SetAsWallpaperBottomSheet(
+        isOpen = isSetAsWallpaperButtonSheetOpen,
+        sheetState = sheetState,
+        onOptionClick = { option ->
+            scope.launch { sheetState.hide() }.invokeOnCompletion {
+                if (!sheetState.isVisible) isSetAsWallpaperButtonSheetOpen = false
+            }
+        },
+        onDismissRequest = { isSetAsWallpaperButtonSheetOpen = false }
+    )
 
 
     Box(
-        modifier = modifier.fillMaxSize().safeDrawingPadding(),
+        modifier = modifier
+            .fillMaxSize()
+            .safeDrawingPadding(),
         contentAlignment = Alignment.Center
     ) {
         BoxWithConstraints(
@@ -150,7 +166,8 @@ fun DetailsScreen(
             image = image,
             onBackClick = { onBackClick() },
             onPhotographerClick = onPhotographerClick,
-            onDownloadIconClick = { isDownloadButtonSheetOpen = true }
+            onDownloadIconClick = { isDownloadButtonSheetOpen = true },
+            onSetAsWallpaperIconClick = { isSetAsWallpaperButtonSheetOpen = true}
         )
     }
 
